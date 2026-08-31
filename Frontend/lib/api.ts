@@ -10,7 +10,6 @@ import type {
 } from "./types";
 
 const LOCAL_API_URL = "http://localhost:8000";
-const PRODUCTION_API_URL = "https://concept-detect-api.onrender.com";
 
 function getApiUrl() {
   const configuredUrl = process.env.NEXT_PUBLIC_API_URL?.trim();
@@ -25,7 +24,7 @@ function getApiUrl() {
     return LOCAL_API_URL;
   }
 
-  return PRODUCTION_API_URL;
+  return "";
 }
 
 const API_URL = getApiUrl();
@@ -50,8 +49,11 @@ async function request<T>(path: string, options: RequestInit): Promise<T> {
     headers.set("Authorization", `Bearer ${authToken}`);
   }
 
+  const baseUrl = API_URL || (typeof window !== "undefined" ? window.location.origin : "");
+  const url = baseUrl ? `${baseUrl}${path}` : path;
+
   try {
-    res = await fetch(`${API_URL}${path}`, {
+    res = await fetch(url, {
       ...options,
       headers,
     });
