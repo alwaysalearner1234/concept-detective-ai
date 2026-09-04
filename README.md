@@ -47,6 +47,8 @@ concept-detective-ai/
 
 ## Quick start (2 minutes)
 
+Live demo : concept-detective.netlify.app
+
 ### 1. Backend part
 
 ```bash
